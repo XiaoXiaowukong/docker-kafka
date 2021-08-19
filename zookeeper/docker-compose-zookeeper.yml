@@ -1,0 +1,52 @@
+version: '3.7'
+services:
+  zoo1:
+    container_name: zoo1
+    hostname: zoo1
+    image: wurstmeister/zookeeper
+    privileged: true
+    restart: unless-stopped
+    ports:
+      - 2181:2181
+    volumes: # 挂载数据卷
+      - /data/zookeeper/zoo1/config/zoo.cfg:/opt/zookeeper-3.4.13/conf/zoo.cfg
+      - /data/zookeeper/zoo1/data:/data
+      - /data/zookeeper/zoo1/datalog:/datalog
+    environment:
+      TZ: Asia/Shanghai
+      ZOO_MY_ID: 1 # 节点ID
+      ZOO_SERVERS: server.1=zoo1:2888:3888 server.2=zoo2:2888:3888 server.3=zoo3:2888:3888 # zookeeper节点列表
+
+  zoo2:
+    container_name: zoo2
+    hostname: zoo2
+    image: wurstmeister/zookeeper
+    privileged: true
+    restart: unless-stopped
+    ports:
+      - 2182:2181
+    volumes: # 挂载数据卷
+      - /data/zookeeper/zoo2/config/zoo.cfg:/opt/zookeeper-3.4.13/conf/zoo.cfg
+      - /data/zookeeper/zoo2/data:/data
+      - /data/zookeeper/zoo2/datalog:/datalog
+    environment:
+      TZ: Asia/Shanghai
+      ZOO_MY_ID: 2 # 节点ID
+      ZOO_SERVERS: server.1=zoo1:2888:3888 server.2=zoo2:2888:3888 server.3=zoo3:2888:3888 # zookeeper节点列表
+
+  zoo3:
+    container_name: zoo3
+    hostname: zoo3
+    image: wurstmeister/zookeeper
+    privileged: true
+    restart: unless-stopped
+    ports:
+      - 2183:2181
+    volumes: # 挂载数据卷
+      - /data/zookeeper/zoo3/config/zoo.cfg:/opt/zookeeper-3.4.13/conf/zoo.cfg
+      - /data/zookeeper/zoo3/data:/data
+      - /data/zookeeper/zoo3/datalog:/datalog
+    environment:
+      TZ: Asia/Shanghai
+      ZOO_MY_ID: 3 # 节点ID
+      ZOO_SERVERS: server.1=zoo1:2888:3888 server.2=zoo2:2888:3888 server.3=zoo3:2888:3888 # zookeeper节点列表
